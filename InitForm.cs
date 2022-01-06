@@ -17,52 +17,53 @@ namespace WinAMBurnerInit
         private Button connect;
         private ProgressBar progressBar;
         private Label lsnum;
-        //private RichTextBox snum;
-        private Label lremaining;
-        //private RichTextBox maxi;
+        private Label lmaxi;
         private Label lfactor;
-        //private RichTextBox current;
         private Label ldate;
         private RichTextBox date;
         private bool checks;
         private Field snum;
-        private Field remaining;
+        private Field maxi;
         private Field factor;
         private Label laptxid;
-        private Field aptxid;
+        private RadioButton lerase;
+        private RadioButton lkeep;
 
         public InitForm()
         {
             InitializeComponent();
 
             new Field(ltype: typeof(PictureBox), lplaceh: Place.Twoh, lplacev: Place.One).draw(this, true);
+            new Field(ltype: typeof(Label), ltext: "AM Burner", font: Field.DefaultFontLarge, lplacev: Place.One).draw(this, true);
 
-            (progressBar = new Field(ltype: typeof(ProgressBar), width: Field.DefaultWidthEntity, height: Field.DefaultHeightSmall, lplaceh: Place.Fiveh, lplacev: Place.Seven).draw(this, true) as ProgressBar).Visible = false;
-            connect = new Field(ltype: typeof(Button), ltext: "Connect", width: Field.DefaultWidthEntity, color: Color.Red, eventHandler: connect_Click, lplaceh: Place.Fiveh, lplacev: Place.Two).draw(this, true) as Button;
-            new Field(ltype: typeof(Button), ltext: "Read", width: Field.DefaultWidthEntity, eventHandler: read_Click, lplaceh: Place.Fiveh, lplacev: Place.Three).draw(this, true);
+            (progressBar = new Field(ltype: typeof(ProgressBar), width: Field.DefaultWidthEntity, height: Field.DefaultHeightSmall, lplaceh: Place.Fiveh, lplacev: Place.Seven).draw(this, true) as ProgressBar)
+                .Visible = false;
+            connect = new Field(ltype: typeof(Button), ltext: "Connect", width: Field.DefaultWidthEntity, color: Color.Red, eventHandler: connect_Click, lplacev: Place.Seven).draw(this, true) as Button;
+            new Field(ltype: typeof(Button), ltext: "Read", width: Field.DefaultWidthEntity, eventHandler: read_Click, lplaceh: Place.Fiveh, lplacev: Place.Two).draw(this, true);
             //new Field(ltype: typeof(CheckBox), ltext: "Erase Chip", width: Field.DefaultWidthEntity, autosize: false, eventHandler: erase_Click, lplaceh: Place.Fiveh, lplacev: Place.Three).draw(this, true);
-            new Field(ltype: typeof(Button), ltext: "Burn", width: Field.DefaultWidthEntity, eventHandler: burn_Click, lplaceh: Place.Fiveh, lplacev: Place.Four).draw(this, true);
-            new Field(ltype: typeof(Button), ltext: "Dump Memory", width: Field.DefaultWidthEntity, eventHandler: dump_Click, lplaceh: Place.Fiveh, lplacev: Place.Five).draw(this, true);
+            new Field(ltype: typeof(Button), ltext: "Burn", width: Field.DefaultWidthEntity, eventHandler: burn_Click, lplaceh: Place.Fiveh, lplacev: Place.Three).draw(this, true);
+            new Field(ltype: typeof(Button), ltext: "Dump Memory", width: Field.DefaultWidthEntity, eventHandler: dump_Click, lplaceh: Place.Fiveh, lplacev: Place.Four).draw(this, true);
 
             new Field(ltype: typeof(Label), ltext: "AM Serial #:", width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Twoh, lplacev: Place.Two).draw(this, true);
             lsnum = new Field(ltype: typeof(Label), width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Threeh, lplacev: Place.Two).draw(this, true) as Label;
             (snum = new Field(type: typeof(RichTextBox), dflt: "AM Serial #", width: Field.DefaultWidthEntity, autosize: false, placeh: Place.Fourh, placev: Place.Two)).draw(this, false);
 
-            new Field(ltype: typeof(Label), ltext: "Remaining Pulses:", width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Twoh, lplacev: Place.Three).draw(this, true);
-            lremaining = new Field(ltype: typeof(Label), width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Threeh, lplacev: Place.Three).draw(this, true) as Label;
-            (remaining = new Field(type: typeof(RichTextBox), dflt: "Remaining Pulses", width: Field.DefaultWidthEntity, autosize: false, placeh: Place.Fourh, placev: Place.Three)).draw(this, false);
+            new Field(ltype: typeof(Label), ltext: "Maximum Pulses:", width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Twoh, lplacev: Place.Three).draw(this, true);
+            lmaxi = new Field(ltype: typeof(Label), width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Threeh, lplacev: Place.Three).draw(this, true) as Label;
+            (maxi = new Field(type: typeof(RichTextBox), dflt: "Maximum Pulses", width: Field.DefaultWidthEntity, autosize: false, placeh: Place.Fourh, placev: Place.Three)).draw(this, false);
 
             new Field(ltype: typeof(Label), ltext: "Current AM:", width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Twoh, lplacev: Place.Four).draw(this, true);
             lfactor = new Field(ltype: typeof(Label), width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Threeh, lplacev: Place.Four).draw(this, true) as Label;
             (factor = new Field(type: typeof(RichTextBox), dflt: "Current AM", width: Field.DefaultWidthEntity, autosize: false, placeh: Place.Fourh, placev: Place.Four)).draw(this, false);
 
             new Field(ltype: typeof(Label), ltext: "CU Id:", width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Twoh, lplacev: Place.Five).draw(this, true);
-            laptxid = new Field(ltype: typeof(Label), width: Field.DefaultWidthAPTX, autosize: false, lplacev: Place.Five).draw(this, true) as Label;
-            (aptxid = new Field(type: typeof(RichTextBox), dflt: "CU Id:", width: Field.DefaultWidthAPTX, autosize: false, placev: Place.Six)).draw(this, false);
+            laptxid = new Field(ltype: typeof(Label), width: Field.DefaultWidthAPTXID, autosize: false, lplacev: Place.Five).draw(this, true) as Label;
+            (lkeep = new Field(ltype: typeof(RadioButton), ltext: "Keep CU Id", width: Field.DefaultWidthEntity, autosize: false, eventHandler: radio_CheckedChanged, lplaceh: Place.Fiveh, lplacev: Place.Five).draw(this, true) as RadioButton)
+                .Checked = true;
+            lerase = new Field(ltype: typeof(RadioButton), ltext: "Erase CU Id", width: Field.DefaultWidthEntity, autosize: false, eventHandler: radio_CheckedChanged, lplaceh: Place.Fiveh, lplacev: Place.Six).draw(this, true) as RadioButton;
 
-            new Field(ltype: typeof(Label), ltext: "Date:", width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Twoh, lplacev: Place.Seven).draw(this, true);
-            ldate = new Field(ltype: typeof(Label), width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Threeh, lplacev: Place.Seven).draw(this, true) as Label;
-            //date = new Field(type: typeof(RichTextBox), dflt: "Date", width: Field.DefaultWidthEntity, autosize: false, placeh: Place.Fourh, placev: Place.Five).draw(this, false) as RichTextBox;
+            new Field(ltype: typeof(Label), ltext: "Date:", width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Twoh, lplacev: Place.Six).draw(this, true);
+            ldate = new Field(ltype: typeof(Label), width: Field.DefaultWidthEntity, autosize: false, lplaceh: Place.Threeh, lplacev: Place.Six).draw(this, true) as Label;
 
             connectAm();
         }
@@ -120,20 +121,11 @@ namespace WinAMBurnerInit
                 am.progress = progressBar;
                 progressBar.Visible = true;
 
-                //if(await am.AMCmd(Cmd.READALL) == ErrCode.OK)
-                //{
-                await am.AMCmd(Cmd.READALL);
-                lsnum.Text = am.SNum.ToString();
-                lfactor.Text = am.Factor.ToString();
-                lremaining.Text = (am.Maxi - am.Factor).ToString();
-                ldate.Text = am.Date.ToString();
-                laptxid.Text = am.AptxId.Aggregate("", (r, m) => r += "0x" + m.ToString("x") + " ");
-                //laptxid.Text += am.AptxId.Aggregate("", (r, m) => r += m.ToString() + " ");
+                if (await am.AMCmd(Cmd.READALL) != ErrCode.ECONNECT)
+                    assign();
+                else
+                    await FormMain.notify("AM not connected", "AM not found make sure the AM is connected\nto the tablet by using a USB cable", "OK");
                 progressBar.Value = progressBar.Maximum;
-                //}
-                //else
-                //    await FormMain.notify("AM read error", "AM read error", "OK");
-
                 progressBar.Visible = false;
                 FormMain.Enables(this, true);
             }
@@ -141,51 +133,60 @@ namespace WinAMBurnerInit
                 await FormMain.notify("AM not connected", "AM not found make sure the AM is connected\nto the tablet by using a USB cable", "OK");
         }
 
-        //private async void erase_Click(object sender, EventArgs e)
-        //{
-        //    if (am != null)
-        //    {
-        //        if (sender is CheckBox)
-        //            am.Nuke = (sender as CheckBox).Checked;
-        //    }
-        //    else
-        //        await FormMain.notify("AM not connected", "AM not found make sure the AM is connected\nto the tablet by using a USB cable", "OK");
-        //}
-
-        private void dump_Click(object sender, EventArgs e)
+        private void assign()
         {
+            lsnum.Text = am.SNum.ToString();
+            lfactor.Text = am.Factor.ToString();
+            lmaxi.Text = am.Maxi.ToString();
+            ldate.Text = am.Date.ToString();
+            laptxid.Text = am.AptxId.Aggregate("", (r, m) => r += m.ToString("X") + " ");
         }
 
         private async void burn_Click(object sender, EventArgs e)
         {
-            if ((am != null) && (snum.checkValid()) && (remaining.checkValid()) && (factor.checkValid()))
+            if ((am != null) && (am.SNum != Am.ERROR) &&
+                (snum.checkValid()) && (maxi.checkValid()) && (factor.checkValid()))
             {
                 am.SNum = (uint)Field.stringToInt(snum.val);
                 am.Factor = (uint)Field.stringToInt(factor.val);
-                am.Maxi = (uint)Field.stringToInt(remaining.val) + am.Factor;
+                am.Maxi = (uint)Field.stringToInt(maxi.val);
+                if (lerase.Checked)
+                    am.AptxId = new uint[] { Am.ERROR, Am.ERROR, Am.ERROR };
                 FormMain.Enables(this, false);
                 progressBar.Minimum = 0;
                 progressBar.Value = progressBar.Minimum;
-                progressBar.Maximum = 90;
+                progressBar.Maximum = 93;
                 am.progress = progressBar;
                 progressBar.Visible = true;
 
-                //if (await am.AMCmd(Cmd.INIT) == ErrCode.OK)
-                //{
-                await am.AMCmd(Cmd.INIT);
-                lsnum.Text = am.SNum.ToString();
-                lfactor.Text = am.Factor.ToString();
-                lremaining.Text = (am.Maxi - am.Factor).ToString();
-                ldate.Text = am.Date.ToString();
-                progressBar.Value = progressBar.Maximum;
-                //}
-                //else
-                //    await FormMain.notify("AM burn error", "AM burn error", "OK");
+                if (await am.AMCmd(Cmd.INIT) != ErrCode.ECONNECT)
+                    assign();
+                else
+                    await FormMain.notify("Error", "Error, to burn AM properly: \n   1. Connect AM \n   2. Read AM \n   3. Fill the form", "OK");
                 progressBar.Visible = false;
                 FormMain.Enables(this, true);
             }
             else
-                await FormMain.notify("AM not connected", "AM not connected or the values are empty", "OK");
+                await FormMain.notify("Error", "Error, to burn AM properly: \n   1. Connect AM \n   2. Read AM \n   3. Fill the form", "OK");
+        }
+
+        private void radio_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((lkeep != null) && (lerase != null))
+            {
+                if (lerase.Checked)
+                {
+                    lkeep.Checked = false;
+                }
+                if (lkeep.Checked)
+                {
+                    lerase.Checked = false;
+                }
+            }
+        }
+
+        private void dump_Click(object sender, EventArgs e)
+        {
         }
 
         private void InitForm_Load(object sender, EventArgs e)
