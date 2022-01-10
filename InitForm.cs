@@ -13,6 +13,7 @@ namespace WinAMBurnerInit
 {
     public partial class InitForm : Form
     {
+        private const double version = 1.1;
         private Am am;
         private Button connect;
         private ProgressBar progressBar;
@@ -32,6 +33,8 @@ namespace WinAMBurnerInit
         public InitForm()
         {
             InitializeComponent();
+
+            Text += " Version " + version;
 
             new Field(ltype: typeof(PictureBox), lplaceh: Place.Twoh, lplacev: Place.One).draw(this, true);
             new Field(ltype: typeof(Label), ltext: "AM Burner", font: Field.DefaultFontLarge, lplacev: Place.One).draw(this, true);
@@ -185,8 +188,27 @@ namespace WinAMBurnerInit
             }
         }
 
-        private void dump_Click(object sender, EventArgs e)
+        private async void dump_Click(object sender, EventArgs e)
         {
+            if (am != null)
+            {
+                FormMain.Enables(this, false);
+                progressBar.Minimum = 0;
+                progressBar.Value = progressBar.Minimum;
+                progressBar.Maximum = 600;
+                am.progress = progressBar;
+                progressBar.Visible = true;
+
+                if (await am.AMCmd(Cmd.DUMP) == ErrCode.OK)
+                    await FormMain.notify("Dump Memory", "Dump Memory Done", "OK");
+                else
+                    await FormMain.notify("AM not connected", "AM not found make sure the AM is connected\nto the tablet by using a USB cable", "OK");
+                progressBar.Value = progressBar.Maximum;
+                progressBar.Visible = false;
+                FormMain.Enables(this, true);
+            }
+            else
+                await FormMain.notify("AM not connected", "AM not found make sure the AM is connected\nto the tablet by using a USB cable", "OK");
         }
 
         private void InitForm_Load(object sender, EventArgs e)
