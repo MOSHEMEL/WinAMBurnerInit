@@ -6,6 +6,21 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!--<OutputType>Exe</OutputType>-->
+    <!--<OutputType>WinExe</OutputType>-->
+    <!--Use this for WPF or Windows Forms apps-->
+    <!--<TargetFramework>net5.0</TargetFramework>-->
+    <!--<TargetFramework>net5.0-windows</TargetFramework>-->
+    <!--Use this for WPF or Windows Forms apps-->
+    <!--<PublishSingleFile>true</PublishSingleFile>-->
+    <!--<SelfContained>true</SelfContained>-->
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <!--<RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
+    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <!--Specify the appropriate runtime here-->
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\WinAMburner\WinAMBurner.csproj" />
   </ItemGroup>
